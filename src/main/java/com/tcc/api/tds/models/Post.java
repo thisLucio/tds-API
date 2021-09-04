@@ -33,11 +33,7 @@ public class Post {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private final Set<PostTag> tags = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private final Set<PostAuthor> authors = new HashSet<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<PostUsuarios> usuarios = new HashSet<>();
@@ -76,28 +72,7 @@ public class Post {
         return description;
     }
 
-    public Set<PostTag> getTags() {
-        return Collections.unmodifiableSet(tags);
-    }
 
-    public Post addTag(Tag tag) {
-        this.tags.add(PostTag.of(tag, this));
-        return this;
-    }
-
-    public Post addTags(Iterable<Tag> tags) {
-        tags.forEach(this::addTag);
-        return this;
-    }
-
-    public Set<PostAuthor> getAuthors() {
-        return Collections.unmodifiableSet(authors);
-    }
-
-    public Post addAuthor(Author author) {
-        this.authors.add(PostAuthor.of(author, this));
-        return this;
-    }
 
     public Set<PostUsuarios> getUsuarios(){
         return Collections.unmodifiableSet(usuarios);
@@ -108,10 +83,6 @@ public class Post {
         return this;
     }
 
-    public Post addAuthors(Iterable<Author> authors) {
-        authors.forEach(this::addAuthor);
-        return this;
-    }
 
     @PreUpdate
     public void preUpdate() {

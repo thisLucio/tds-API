@@ -1,30 +1,21 @@
 package com.tcc.api.tds;
 
-import com.tcc.api.tds.models.Author;
 import com.tcc.api.tds.models.Post;
-import com.tcc.api.tds.models.Tag;
 import com.tcc.api.tds.models.Usuarios;
-import com.tcc.api.tds.repository.AuthorRepository;
 import com.tcc.api.tds.repository.PostRepository;
-import com.tcc.api.tds.repository.TagRepository;
 import com.tcc.api.tds.repository.UsuariosRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class Demo implements ApplicationRunner {
 
-    private final TagRepository tagRepository;
-    private final AuthorRepository authorRepository;
+
     private final PostRepository postRepository;
     private final UsuariosRepository usuariosRepository;
 
-    public Demo(TagRepository tagRepository, AuthorRepository authorRepository, PostRepository postRepository, UsuariosRepository usuariosRepository) {
-        this.tagRepository = tagRepository;
-        this.authorRepository = authorRepository;
+    public Demo( PostRepository postRepository, UsuariosRepository usuariosRepository) {
         this.postRepository = postRepository;
         this.usuariosRepository = usuariosRepository;
     }
@@ -37,17 +28,9 @@ public class Demo implements ApplicationRunner {
                 "O MySQL é um sistema de gerenciamento de banco de dados, que utiliza a linguagem SQL como interface. É atualmente um dos sistemas de gerenciamento de bancos de dados mais populares..."
         );
 
-        var author = Author.builder("Gaspar Barancelli Junior")
-                .linkedIn("https://www.linkedin.com/in/gaspar-barancelli-junior-77681881/")
-                .twitter("https://twitter.com/gasparbjr")
-                .faceBook("https://www.facebook.com/gaspar.barancelli/")
-                .summary("Senior software engineer at Dextra, passionate about technology, because I understand that through it we can bring people together and make our world a better")
-                .build();
-        authorRepository.save(author);
-        post.addAuthor(author);
 
-        var usuarios = Usuarios.builder("Lucio Bergamasco")
-                .us_email("lucio.bergamasco@gmail.com")
+        var usuarios = Usuarios.builder("xicao")
+                .us_email("xicao2.top@gmail.com")
                 .us_fone("xxxx")
                 .us_senha("123")
                 .us_status("1")
@@ -55,37 +38,9 @@ public class Demo implements ApplicationRunner {
         usuariosRepository.save(usuarios);
         post.addUsuarios(usuarios);
 
-        var tag = Tag.of("Java");
-        tagRepository.save(tag);
-        post.addTag(tag);
-
-        var tags = List.of(
-                Tag.of("Mysql"),
-                Tag.of("Banco de Dados"),
-                Tag.of("JPA")
-        );
-        tagRepository.saveAll(tags);
-        post.addTags(tags);
-
         postRepository.save(post);
 
-        postRepository.findAll().forEach(it -> {
-            System.out.printf("Post - ID[%d], TITLE[%s]%n", it.getId(), it.getTitle());
-            it.getAuthors().forEach(postAuthor -> {
-                System.out.printf("PostAuthor - ID[%d], AUTHOR_NAME[%s]%n", postAuthor.getId(), postAuthor.getAuthor().getName());
-            });
-            it.getTags().forEach(postTag -> {
-                System.out.printf("PostTag - ID[%d], TAG_DESCRIPTION[%s]%n", postTag.getId(), postTag.getTag().getDescription());
-            });
-        });
 
-        authorRepository.findAll().forEach(it -> {
-            System.out.printf("Author - ID[%d], NAME[%s]%n", it.getId(), it.getName());
-        });
-
-        tagRepository.findAll().forEach(it -> {
-            System.out.printf("Tag - ID[%d], DESCRIPTION[%s]%n", it.getId(), it.getDescription());
-        });
     }
 
 }
