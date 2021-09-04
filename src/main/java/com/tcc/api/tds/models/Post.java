@@ -39,6 +39,8 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private final Set<PostAuthor> authors = new HashSet<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private final Set<PostUsuarios> usuarios = new HashSet<>();
     @Deprecated
     public Post() {
     }
@@ -94,6 +96,15 @@ public class Post {
 
     public Post addAuthor(Author author) {
         this.authors.add(PostAuthor.of(author, this));
+        return this;
+    }
+
+    public Set<PostUsuarios> getUsuarios(){
+        return Collections.unmodifiableSet(usuarios);
+    }
+
+    public Post addUsuarios(Usuarios usuarios){
+        this.usuarios.add(PostUsuarios.of(usuarios, this));
         return this;
     }
 

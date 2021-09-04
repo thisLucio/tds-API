@@ -3,9 +3,11 @@ package com.tcc.api.tds;
 import com.tcc.api.tds.models.Author;
 import com.tcc.api.tds.models.Post;
 import com.tcc.api.tds.models.Tag;
+import com.tcc.api.tds.models.Usuarios;
 import com.tcc.api.tds.repository.AuthorRepository;
 import com.tcc.api.tds.repository.PostRepository;
 import com.tcc.api.tds.repository.TagRepository;
+import com.tcc.api.tds.repository.UsuariosRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Repository;
@@ -18,11 +20,13 @@ public class Demo implements ApplicationRunner {
     private final TagRepository tagRepository;
     private final AuthorRepository authorRepository;
     private final PostRepository postRepository;
+    private final UsuariosRepository usuariosRepository;
 
-    public Demo(TagRepository tagRepository, AuthorRepository authorRepository, PostRepository postRepository) {
+    public Demo(TagRepository tagRepository, AuthorRepository authorRepository, PostRepository postRepository, UsuariosRepository usuariosRepository) {
         this.tagRepository = tagRepository;
         this.authorRepository = authorRepository;
         this.postRepository = postRepository;
+        this.usuariosRepository = usuariosRepository;
     }
 
     @Override
@@ -41,6 +45,15 @@ public class Demo implements ApplicationRunner {
                 .build();
         authorRepository.save(author);
         post.addAuthor(author);
+
+        var usuarios = Usuarios.builder("Lucio Bergamasco")
+                .us_email("lucio.bergamasco@gmail.com")
+                .us_fone("xxxx")
+                .us_senha("123")
+                .us_status("1")
+                .build();
+        usuariosRepository.save(usuarios);
+        post.addUsuarios(usuarios);
 
         var tag = Tag.of("Java");
         tagRepository.save(tag);
