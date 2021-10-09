@@ -1,10 +1,10 @@
-package com.tcc.api.tds;
+package io.tcc.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TdsApplicationTests {
+class UserserviceApplicationTests {
 
 	@Test
 	void contextLoads() {
